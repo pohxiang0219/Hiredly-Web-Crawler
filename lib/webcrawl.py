@@ -12,6 +12,7 @@ def main():
         cms_requests_found = False
         cms_cors_errors = False
         cms_responses = []
+        all_requests = []
 
         # 1) Listen for console messages - only CMS-related CORS errors
         def on_console(msg):
@@ -21,11 +22,16 @@ def main():
                 print("CMS CORS Error:", msg.text)
                 cms_cors_errors = True
         page.on("console", on_console)
+        
+        def on_request(request):
+            all_requests.append(request.url)
+            print(f"Request: {request.url}") # Debugging
 
         # 2) Only inspect CMS responses
         def on_response(response):
             nonlocal cms_requests_found
             url = response.url
+            print(f"Response: {url} - Status: {response.status}") 
             if "cms.hiredly.com" in url:
                 cms_requests_found = True
                 aca_origin = response.headers.get("access-control-allow-origin")
@@ -39,6 +45,7 @@ def main():
                     'acao': aca_origin
                 })
         page.on("response", on_response)
+        page.on("request", on_request)
 
         # 3) Navigate and wait until network is idle
         print(f"Checking CMS requests from: {PAGE_URL}")
