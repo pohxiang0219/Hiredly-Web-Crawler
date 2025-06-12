@@ -26,6 +26,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Crawler Install
+        run: |
+          playwright install
+      
       - name: Run web crawler
         run: |
           python -m lib.webcrawl
+
+      
