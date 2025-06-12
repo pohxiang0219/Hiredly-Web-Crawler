@@ -24,8 +24,9 @@ def main():
         page.on("console", on_console)
         
         def on_request(request):
-            all_requests.append(request.url)
+            #all_requests.append(request.url)
             #print(f"Request: {request.url}") # Debugging
+            pass
 
         # 2) Only inspect CMS responses
         def on_response(response):
