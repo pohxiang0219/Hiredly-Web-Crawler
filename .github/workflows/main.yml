@@ -22,6 +22,7 @@ jobs:
           pip install -r requirements.txt
           playwright install
       - name: Run web crawler
+        id: crawler
         run: |
           python -m lib.webcrawl | tee crawler_output.txt
           
