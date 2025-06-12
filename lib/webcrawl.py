@@ -25,13 +25,13 @@ def main():
         
         def on_request(request):
             all_requests.append(request.url)
-            print(f"Request: {request.url}") # Debugging
+            #print(f"Request: {request.url}") # Debugging
 
         # 2) Only inspect CMS responses
         def on_response(response):
             nonlocal cms_requests_found
             url = response.url
-            print(f"Response: {url} - Status: {response.status}") 
+            #print(f"Response: {url} - Status: {response.status}") 
             if "cms.hiredly.com" in url:
                 cms_requests_found = True
                 aca_origin = response.headers.get("access-control-allow-origin")
