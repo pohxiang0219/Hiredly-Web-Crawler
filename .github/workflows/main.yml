@@ -23,10 +23,21 @@ jobs:
           playwright install
       - name: Run web crawler
         run: |
-          python -m lib.webcrawl
-          echo "resul<<EOF" >> $GITHUB_OUTPUT
-          cat output.txt >> $GITHUB_OUTPUT
+          python -m lib.webcrawl | tee crawler_output.txt
+          
+          # Check if test passed or failed
+          if grep -q "RESULT: PASS" crawler_output.txt; then
+            echo "status=PASS" >> $GITHUB_OUTPUT
+          else
+            echo "status=FAIL" >> $GITHUB_OUTPUT
+          fi
+          
+          # Store output for email
+          echo "output<<EOF" >> $GITHUB_OUTPUT
+          cat crawler_output.txt >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
+
+          
       - name: Send Email
         uses: dawidd6/action-send-mail@v5
         with:
@@ -43,9 +54,8 @@ jobs:
             Status: ${{ steps.crawler.outputs.status }}
             Test URL: https://my.hiredly.com/about-us
             CMS URL: https://cms.hiredly.com
-            Timestamp: $(date)
             
             Full Test Output:
-            $(cat crawler_output.txt)
+            ${{ steps.crawler.outputs.output }}
             
             View full logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
