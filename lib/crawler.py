@@ -66,7 +66,7 @@ def cors_ok(url: str, origin: str) -> bool:
         )
         allow = opt.headers.get("Access-Control-Allow-Origin")
 
-        # Fallback: some servers don’t answer OPTIONS
+        # Fallback to if OPTIONS request fails or does not return ACAO
         if allow is None:
             get  = requests.get(url, headers=hdr, timeout=TIMEOUT)
             allow = get.headers.get("Access-Control-Allow-Origin")
@@ -77,7 +77,7 @@ def cors_ok(url: str, origin: str) -> bool:
         return False
 
 
-def main() -> None:
+def main():
     try:
         resp = requests.get(PAGE_URL, timeout=TIMEOUT)
         resp.raise_for_status()
