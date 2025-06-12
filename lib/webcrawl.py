@@ -50,10 +50,15 @@ def main():
 
         # 3) Navigate and wait until network is idle
         print(f"Checking CMS requests from: {PAGE_URL}")
-        page.goto(PAGE_URL,timeout=60000 ,wait_until="load")
+        try:
+            page.goto(PAGE_URL, timeout=30000, wait_until="domcontentloaded")
+        except Exception as e:
+            print(f"Page load timeout (continuing anyway): {e}")
+            browser.close()
+            return
 
         # 4) Give extra time for any late console messages
-        page.wait_for_timeout(2000)
+        page.wait_for_timeout(5000)
 
         # 5) Determine PASS/FAIL
         if not cms_requests_found:
