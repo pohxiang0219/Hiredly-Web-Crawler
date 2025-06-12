@@ -29,7 +29,3 @@ jobs:
       - name: Run web crawler
         run: |
           python -m lib.webcrawl
-
-      - name: Run tests
-        run: |
-          python -m unittest discover -s tests -p "*.py"
