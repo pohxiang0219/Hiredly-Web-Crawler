@@ -12,7 +12,7 @@ def main():
         cms_requests_found = False
         cms_cors_errors = False
         cms_responses = []
-        all_requests = []
+        #all_requests = []
 
         # 1) Listen for console messages - only CMS-related CORS errors
         def on_console(msg):
