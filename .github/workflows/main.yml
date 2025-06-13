@@ -49,7 +49,7 @@ jobs:
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_APP_PASSWORD }}
           subject: "CMS Connectivity Test - ${{ steps.crawler.outputs.status }}"
-          to: engineering@hiredly.com
+          to: pohxiang.yeoh@hiredly.com
           from: ${{ secrets.EMAIL_USERNAME }}
           body: |
             CMS Connectivity Test Results
