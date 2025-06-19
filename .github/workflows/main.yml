@@ -40,19 +40,20 @@ jobs:
 
           
       - name: Send Email
+        if: steps.crawler.outputs.status == 'FAIL'
         uses: dawidd6/action-send-mail@v5
         with:
           server_address: smtp.gmail.com
           server_port: 587
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_APP_PASSWORD }}
-          subject: "CMS Connectivity Test - ${{ steps.crawler.outputs.status }}"
+          subject: "CMS Connectivity Test - FAILED"
           to: engineering@hiredly.com
           from: ${{ secrets.EMAIL_USERNAME }}
           body: |
             CMS Connectivity Test Results
             
-            Status: ${{ steps.crawler.outputs.status }}
+            Status: FAILED
             Test URL: https://my.hiredly.com/about-us
             CMS URL: https://cms.hiredly.com
             
